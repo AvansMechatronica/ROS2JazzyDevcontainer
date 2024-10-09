@@ -22,19 +22,19 @@ RUN apt-get update && apt-get upgrade -y && \
 
 
 # basic python packages
-RUN apt-get update && pip install --upgrade --ignore-installed --no-cache-dir \
-	pyassimp pylint==1.9.4 \
-	autopep8 \
-	python-language-server[all] \
-	notebook~=5.7 \
-	Pygments \
-	matplotlib \
-	ipywidgets \
-	jupyter_contrib_nbextensions \
-	nbimporter \
-	supervisor \
-	supervisor_twiddler \
-	argcomplete 
+#RUN apt-get update && pip install --upgrade --ignore-installed --no-cache-dir \
+#	pyassimp pylint==1.9.4 \
+#	autopep8 \
+#	python-language-server[all] \
+#	notebook~=5.7 \
+#	Pygments \
+#	matplotlib \
+#	ipywidgets \
+#	jupyter_contrib_nbextensions \
+#	nbimporter \
+#	supervisor \
+#	supervisor_twiddler \
+#	argcomplete 
 
 #RUN apt install -y \
 #	python3-colcon-common-extensions
@@ -85,13 +85,14 @@ RUN apt-get install -y \
     ros-$ROS_DISTRO-moveit-servo 
 #Add own ROS Packeges here
 
-RUN curl -sSL http://get.gazebosim.org | sh
+# uncomment for using gazebo
+RUN sudo apt-get install ros-${ROS_DISTRO}-ros-gz
 
-RUN apt-get install -y \
-    ros-$ROS_DISTRO-gazebo-msgs \
-    ros-$ROS_DISTRO-gazebo-ros2-control \
-    ros-$ROS_DISTRO-gazebo-plugins \
-    ros-$ROS_DISTRO-gazebo-ros 
+#RUN apt-get install -y \
+#    ros-$ROS_DISTRO-gazebo-msgs \
+#    ros-$ROS_DISTRO-gazebo-ros2-control \
+#    ros-$ROS_DISTRO-gazebo-plugins \
+#    ros-$ROS_DISTRO-gazebo-ros 
 
 # Uncoment for using UR Robots
 #RUN apt-get install -y ros-$ROS_DISTRO-ur
@@ -117,4 +118,4 @@ RUN sudo chmod -R 777 /home/developer/installers
 
 RUN sudo chmod +x /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
-CMD [ "sudo", "-E", "/usr/local/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD [ "sudo", "-E", "/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
