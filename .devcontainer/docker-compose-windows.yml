@@ -1,0 +1,24 @@
+version: '3'
+services:
+
+  workspace:
+    #env_file:
+    #   - ./default.env
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args: 
+        BASE_IMAGE: jazzy-desktop-full
+    image: avans-ros2:jazzy-desktop-full
+    ipc: host
+    security_opt:
+    - seccomp:unconfined
+    ports:
+    - "3001:3000"
+    - "3002:8888"
+    volumes:
+    - workspace:/workspace
+    environment:
+    - DISPLAY=host.docker.internal:0.0
+volumes:
+  workspace:

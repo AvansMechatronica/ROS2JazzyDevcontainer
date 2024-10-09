@@ -1,0 +1,26 @@
+version: '3'
+services:
+
+  workspace:
+    # env_file:
+    #   - .env
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args: 
+        BASE_IMAGE: jazzy-desktop-full
+    image: avans-ros2:jazzy-desktop-full
+    ipc: host
+    security_opt:
+    - seccomp:unconfined
+    ports:
+    - "3001:3000"
+    - "3002:8888"
+    volumes:
+    - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    - workspace:/workspace
+    environment:
+    - DISPLAY=$DISPLAY
+    - QT_X11_NO_MITSHM=1
+volumes:
+  workspace:
